@@ -16,9 +16,9 @@ import weka.filters.unsupervised.attribute.Remove;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class Data_IO {
-	private static final String TEST_FILE = "/home/surbhi/Downloads/CMPE239/Project/test_seg.csv";
+	private static final String TEST_FILE = "data/test_seg.csv";
 	
-	private static final String TRAINING_FILE = "/home/surbhi/Downloads/CMPE239/Project/train_seg.csv";
+	private static final String TRAINING_FILE = "data/train_seg.csv";
 	
 	private static List<String[]> readCsvFile(String csvFilename) throws IOException {
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
