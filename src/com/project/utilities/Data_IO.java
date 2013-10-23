@@ -13,13 +13,14 @@ import weka.core.Attribute;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal;
 import weka.filters.unsupervised.attribute.Remove;
-import au.com.bytecode.opencsv.CSVReader;
+//import au.com.bytecode.opencsv.CSVReader;
 
 public class Data_IO {
 	private static final String TEST_FILE = "data/test_seg.csv";
 	
 	private static final String TRAINING_FILE = "data/train_seg.csv";
 	
+	/*
 	private static List<String[]> readCsvFile(String csvFilename) throws IOException {
 		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
 		List<String[]> content = csvReader.readAll();
@@ -34,6 +35,7 @@ public class Data_IO {
 	public static List<String[]> readTrainFile() throws IOException {
 		return readCsvFile(TRAINING_FILE);
 	}
+	*/
 	
 	private static Instances csvLoad(String FileType) throws Exception{
 		CSVLoader loader = new CSVLoader();
