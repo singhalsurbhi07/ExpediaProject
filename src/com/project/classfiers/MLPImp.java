@@ -18,7 +18,7 @@ public class MLPImp {
 	/**
 	 * @throws Exception
 	 */
-	private static String MODEL_FILE="/home/surbhi/Downloads/CMPE239/Project/modelFile.txt";
+	private static String MODEL_FILE="model/modelFile.txt";
 
 	private static void  train() throws Exception{
 		Data_IO dataGen=new Data_IO();
