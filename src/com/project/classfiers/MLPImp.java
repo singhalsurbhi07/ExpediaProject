@@ -1,12 +1,16 @@
 package com.project.classfiers;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
+import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
@@ -15,97 +19,119 @@ import com.project.utilities.Data_IO;
 
 import weka.core.Attribute;
 public class MLPImp {
-	/**
-	 * @throws Exception
-	 */
-	private static String MODEL_FILE="model/modelFile.txt";
+  /**
+   * @throws Exception
+   */
+  private static String MODEL_FILE = " ";
+  private static String OUTPUT_FILE = "";
 
-	private static void  train() throws Exception{
-		Data_IO dataGen=new Data_IO();
-		Instances trainInst=dataGen.setupTrainFile();
-		MultilayerPerceptron MLPNet =  new MultilayerPerceptron(); // create a WEKA MLP structure
-		String[] options = weka.core.Utils.splitOptions("-H 100,100");
-		MLPNet.setOptions(options);
-		MLPNet.buildClassifier(trainInst) ; // build an MLP classifier on the training set
+  private static void train(String trainData) throws Exception {
+    Properties p = System.getProperties();
+    String userDir = p.getProperty("user.home");
+    System.out.println("User home dir-->>" + userDir);
+    MODEL_FILE = userDir + "/modelFile.txt";
+    OUTPUT_FILE = userDir + "/outputFile.txt";
+    File modelFile = new File(MODEL_FILE);
+    if (!modelFile.exists()) {
 
-		SerializationHelper.write(MODEL_FILE, MLPNet);
-		//Evaluation eval = new Evaluation(trainInst);
-		//eval.evaluateModel(MLPNet, trainInst);
-		//System.out.println(eval.correct());
-		System.out.println("Training finished and model saved!");
-	}
+      modelFile.createNewFile();
+    }
+    Data_IO dataGen = new Data_IO();
+    Instances trainInst = dataGen.setupTrainFile(trainData);
+    System.out.println("Train no. of Atttributes-->>"
+        + trainInst.numAttributes());
 
-	private static List<Result> predict() throws Exception {
-		Classifier cl = (Classifier) SerializationHelper.read(MODEL_FILE);
-		Data_IO dataGen=new Data_IO();
+    MultilayerPerceptron MLPNet = new MultilayerPerceptron(); // create a WEKA
+                                                              // MLP structure
+    String[] options = weka.core.Utils.splitOptions("-H 100,100");
+    MLPNet.setOptions(options);
+    MLPNet.buildClassifier(trainInst); // build an MLP classifier on the
+                                       // training set
 
-		Attribute a = new Attribute("booking_bool");
-		Instances testInst = dataGen.setupTrainFile();
-		//testInst.insertAttributeAt(a, 46);
-		
-		Instances testInstWithoutChopping = dataGen.readupTestFile();
-		
-		ArrayList<Result> reqAttr=new ArrayList<Result>();
-		
-		for(int index=0;index<testInst.numInstances();index++){
-			Result tempList=new Result();
-			Instance newInstance = testInst.instance(index);
-			
-			Instance newInstanceWithoutChopping = testInstWithoutChopping.instance(index);
-			tempList.srch_id = newInstanceWithoutChopping.value(0);
-			tempList.prop_id = newInstanceWithoutChopping.value(7);
+    SerializationHelper.write(MODEL_FILE, MLPNet);
+    // Evaluation eval = new Evaluation(trainInst);
+    // eval.evaluateModel(MLPNet, trainInst);
+    // System.out.println(eval.correct());
+    System.out.println("Training finished and model saved!");
+  }
 
-			double[] dist = cl.distributionForInstance(newInstance);
-			tempList.weight = getProbabilityOfBooking(dist[0], dist[1]);
-			reqAttr.add(tempList);
-		}
-		
-		return reqAttr;
-		
-		/*
-		for(ArrayList<Double>d:reqAttr){
-			for(double val:d){
-				System.out.print(val+", ");
-			}
-			System.out.println();
-		}*/
-	}
-	
-	private static double getProbabilityOfBooking(double class1Wt, double class2Wt){
-		return (class2Wt/(class1Wt+class2Wt))*1E4;
-	}
-	
-	private static List<Result> sortResult(List<Result> results){
-		Comparator<Result> cmp = new Comparator<Result>() {
-			  @Override
-		      public int compare(Result lhs, Result rhs) {
-		        if(lhs.srch_id == rhs.srch_id){
-		        	return lhs.weight.compareTo(rhs.weight);
-		        } 
-		        return lhs.srch_id.compareTo(rhs.srch_id);
-		      }
-		};
-		
-		Collections.sort(results, cmp);
-		return results;
-	}
+  private static List<Result> predict(String testData) throws Exception {
+    System.out.println("Model File path-->>" + MODEL_FILE);
+    Classifier cl = (Classifier) SerializationHelper.read(MODEL_FILE);
+    Data_IO dataGen = new Data_IO();
 
-	public static void main(String [] args) throws Exception{
-		train();
-		List<Result> results  = predict();
-		List<Result> sortedResults = sortResult(results);
-		for(Result r: sortedResults){
-			System.out.println(r.srch_id+","+r.prop_id);
-		}
-	}
-	
-	static class Result {
-		public Double srch_id;
-		
-		public Double prop_id;
-		
-		public Double weight;
-		
-		Result(){}
-	}	
+    Attribute a = new Attribute("booking_bool");
+    Instances testInst = dataGen.setupTestFile(testData);
+    testInst.insertAttributeAt(a, 46);
+
+    Instances testInstWithoutChopping = dataGen.readupTestFile(testData);
+
+    ArrayList<Result> reqAttr = new ArrayList<Result>();
+
+    for (int index = 0; index < testInst.numInstances(); index++) {
+      Result tempList = new Result();
+      Instance newInstance = testInst.instance(index);
+
+      Instance newInstanceWithoutChopping = testInstWithoutChopping
+          .instance(index);
+      tempList.srch_id = newInstanceWithoutChopping.value(0);
+      tempList.prop_id = newInstanceWithoutChopping.value(7);
+
+      double[] dist = cl.distributionForInstance(newInstance);
+      tempList.weight = getProbabilityOfBooking(dist[0], dist[1]);
+      reqAttr.add(tempList);
+    }
+
+    return reqAttr;
+
+    /*
+     * for(ArrayList<Double>d:reqAttr){ for(double val:d){
+     * System.out.print(val+", "); } System.out.println(); }
+     */
+  }
+
+  private static double getProbabilityOfBooking(double class1Wt, double class2Wt) {
+    return (class2Wt / (class1Wt + class2Wt)) * 1E4;
+  }
+
+  private static List<Result> sortResult(List<Result> results) {
+    Comparator<Result> cmp = new Comparator<Result>() {
+      @Override
+      public int compare(Result lhs, Result rhs) {
+        if (lhs.srch_id == rhs.srch_id) {
+          return lhs.weight.compareTo(rhs.weight);
+        }
+        return lhs.srch_id.compareTo(rhs.srch_id);
+      }
+    };
+
+    Collections.sort(results, cmp);
+    return results;
+  }
+
+  public static void main(String[] args) throws Exception {
+    String trainData = args[0];
+    String testData = args[1];
+    train(trainData);
+    List<Result> results = predict(testData);
+    List<Result> sortedResults = sortResult(results);
+    File file = new File(OUTPUT_FILE);
+    PrintWriter pw = new PrintWriter(file);
+    for (Result r : sortedResults) {
+      System.out.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
+      pw.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
+    }
+    pw.close();
+  }
+
+  static class Result {
+    public Double srch_id;
+
+    public Double prop_id;
+
+    public Double weight;
+
+    Result() {
+    }
+  }
 }

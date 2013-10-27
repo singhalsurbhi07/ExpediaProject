@@ -16,68 +16,66 @@ import weka.filters.unsupervised.attribute.Remove;
 //import au.com.bytecode.opencsv.CSVReader;
 
 public class Data_IO {
-	private static final String TEST_FILE = "data/test_seg.csv";
-	
-	private static final String TRAINING_FILE = "data/train_seg.csv";
-	
-	/*
-	private static List<String[]> readCsvFile(String csvFilename) throws IOException {
-		CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
-		List<String[]> content = csvReader.readAll();
-		csvReader.close();
-		return content;
-	}
-	
-	public static List<String[]> readTestFile() throws IOException{
-		return readCsvFile(TEST_FILE);
-	}
-	
-	public static List<String[]> readTrainFile() throws IOException {
-		return readCsvFile(TRAINING_FILE);
-	}
-	*/
-	
-	private static Instances csvLoad(String FileType) throws Exception{
-		CSVLoader loader = new CSVLoader();
-		loader.setSource(new File(FileType));
-	    Instances data = loader.getDataSet();
-	    return data;
-	}
-	
-	public Instances setupTrainFile() throws Exception{
-		Instances inst = csvLoad(TRAINING_FILE);
+  private static final String TEST_FILE = "data/test_seg.csv";
 
-		Remove remove = new Remove();
-		int []attr={0,1,2,7,14,51,52};
-	    remove.setAttributeIndicesArray(attr);
-	    remove.setInvertSelection(false);
-	    remove.setInputFormat(inst);
-	    Instances instNew = Filter.useFilter(inst, remove);
-	    instNew.setClassIndex(46);
-	    
-	    // Convert class values to nominal.
-	    NumericToNominal f =  new NumericToNominal();
-	    f.setInputFormat(instNew);
-	    f.setAttributeIndices("47");
-	    instNew = Filter.useFilter(instNew, f);
-	    
-	    return instNew;
-	}
-	
-	public Instances setupTestFile() throws Exception{
-		Instances inst = csvLoad(TEST_FILE);
-		Remove remove = new Remove();
-		int []attr={0,1,2,7};
-	    remove.setAttributeIndicesArray(attr);
-	    remove.setInvertSelection(false);
-	    remove.setInputFormat(inst);
-	    Instances instNew = Filter.useFilter(inst, remove);
-	    return instNew;
-	}
-	
-	public Instances readupTestFile() throws Exception{
-		Instances inst = csvLoad(TEST_FILE);
-		return inst;
-	}
+  private static final String TRAINING_FILE = "data/train_seg.csv";
+
+  // private static List<String[]> readCsvFile(String csvFilename) throws
+  // IOException {
+  // CSVReader csvReader = new CSVReader(new FileReader(csvFilename));
+  // List<String[]> content = csvReader.readAll();
+  // csvReader.close();
+  // return content;
+  // }
+
+  // public static List<String[]> readTestFile() throws IOException{
+  // return readCsvFile(TEST_FILE);
+  // }
+  //
+  // public static List<String[]> readTrainFile() throws IOException {
+  // return readCsvFile(TRAINING_FILE);
+  // }
+
+  private static Instances csvLoad(String FileType) throws Exception {
+    CSVLoader loader = new CSVLoader();
+    loader.setSource(new File(FileType));
+    Instances data = loader.getDataSet();
+    return data;
+  }
+
+  public Instances setupTrainFile(String trainData) throws Exception {
+    Instances inst = csvLoad(trainData);
+
+    Remove remove = new Remove();
+    int[] attr = {0, 1, 2, 7, 14, 51, 52};
+    remove.setAttributeIndicesArray(attr);
+    remove.setInvertSelection(false);
+    remove.setInputFormat(inst);
+    Instances instNew = Filter.useFilter(inst, remove);
+    instNew.setClassIndex(46);
+
+    // Convert class values to nominal.
+    NumericToNominal f = new NumericToNominal();
+    f.setInputFormat(instNew);
+    f.setAttributeIndices("47");
+    instNew = Filter.useFilter(instNew, f);
+
+    return instNew;
+  }
+
+  public Instances setupTestFile(String testData) throws Exception {
+    Instances inst = csvLoad(testData);
+    Remove remove = new Remove();
+    int[] attr = {0, 1, 2, 7};
+    remove.setAttributeIndicesArray(attr);
+    remove.setInvertSelection(false);
+    remove.setInputFormat(inst);
+    Instances instNew = Filter.useFilter(inst, remove);
+    return instNew;
+  }
+
+  public Instances readupTestFile(String testData) throws Exception {
+    Instances inst = csvLoad(testData);
+    return inst;
+  }
 }
-
