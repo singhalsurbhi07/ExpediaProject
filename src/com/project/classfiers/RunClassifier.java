@@ -31,6 +31,7 @@ public class RunClassifier {
     String classifierType = args[4];
     if(classifierType.equals("TRAIN_FILE")) {
     	Data_IO.createNewTestNTrainFiles(trainFile,testFile,modelFile,outputFile);
+    	return;
     }
     ClassifierType cType = ClassifierType.valueOf(classifierType);
     Classifier c = null;

@@ -28,12 +28,10 @@ public class Data_IO {
   }
   
   private static void csvSave(String FileName, Instances ins) throws Exception {
-	    CSVSaver saver = new CSVSaver();
-	    saver.setDestination(new File(FileName));
-	    int count = ins.numInstances();
-	    for(int i = 0; i < count; i++) {
-	    	saver.writeIncremental(ins.instance(i));
-	    }
+	  	 CSVSaver saver = new CSVSaver();
+	    saver.setFile(new File(FileName));
+	    saver.setInstances(ins);
+	    saver.writeBatch();
 	    
 	  }
 
