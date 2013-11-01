@@ -10,6 +10,7 @@ import weka.core.Attribute;
 import weka.core.FastVector;
 import weka.core.Instances;
 import weka.core.converters.CSVLoader;
+import weka.core.converters.CSVSaver;
 import weka.core.Attribute;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal;
@@ -25,6 +26,16 @@ public class Data_IO {
     Instances data = loader.getDataSet();
     return data;
   }
+  
+  private static void csvSave(String FileName, Instances ins) throws Exception {
+	    CSVSaver saver = new CSVSaver();
+	    saver.setDestination(new File(FileName));
+	    int count = ins.numInstances();
+	    for(int i = 0; i < count; i++) {
+	    	saver.writeIncremental(ins.instance(i));
+	    }
+	    
+	  }
 
   public static Instances setupTrainFile(String trainData) throws Exception {
     Instances inst = csvLoad(trainData);
@@ -79,4 +90,13 @@ public class Data_IO {
   public static Instances readupTestFile(String testData) throws Exception {
     return inputs;
   }
+
+public static void createNewTestNTrainFiles(String trainFile, String testFile,
+		String newTrainFile, String newTestFile) throws Exception {
+	Instances trainRet = setupTrainFile(trainFile);
+	csvSave(newTrainFile, trainRet);
+	Instances testRet = setupTestFile(testFile);
+	csvSave(newTestFile, testRet);
+	
+}
 }
