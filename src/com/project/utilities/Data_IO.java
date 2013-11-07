@@ -54,14 +54,9 @@ public class Data_IO {
 	for (int i = 0; i < inst.numInstances(); i++) {
 	    if (inst.instance(i).value(inst.numAttributes() - 1) == 1) {
 		inst.instance(i).setWeight(50);
-		System.out.println("Instance value:" + inst.instance(1));
 	    }
 	}
 
-	for (int i = 0; i < inst.numInstances(); i++) {
-	    System.out.print(inst.instance(i).value(inst.numAttributes() - 1) + "--");
-	    System.out.println(inst.instance(i).weight());
-	}
 
 	return inst;
     }
