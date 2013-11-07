@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import weka.classifiers.Classifier;
-import weka.classifiers.functions.SimpleLogistic;
+import weka.classifiers.functions.LinearRegression;
 import weka.core.Instance;
 import weka.core.Instances;
 
 import com.project.classfiers.Utils.Result;
 
-public class LogisticRegression {
+public class LinearReg {
     public static Classifier train(Instances trainInst) throws Exception {
-	SimpleLogistic logisticReg = new SimpleLogistic();
+	LinearRegression linearReg = new LinearRegression();
 	// logisticReg.setOptions(weka.core.Utils.splitOptions("-N -F 1"));
-	logisticReg.buildClassifier(trainInst);
-	return logisticReg;
+	linearReg.buildClassifier(trainInst);
+	return linearReg;
     }
 
     public static List<Result> predict(Instances testInst, Instances inputs,

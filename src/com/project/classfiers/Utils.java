@@ -32,6 +32,18 @@ public class Utils {
     return (Classifier) SerializationHelper.read(model);
   }
 
+  public static void saveInterimFile(List<Result> results, String outputFile)
+      throws FileNotFoundException {
+    File file = new File(outputFile);
+    PrintWriter pw = new PrintWriter(file);
+
+    for (Result r : results) {
+      pw.println(r.srch_id.intValue() + "," + r.prop_id.intValue()+","+r.weight);
+    }
+    pw.close();
+  }
+
+ 
   public static void writeResultToFile(List<Result> results, String outputFile)
       throws FileNotFoundException {
     List<Result> sortedResults = sortResult(results);
@@ -40,7 +52,7 @@ public class Utils {
     PrintWriter pw = new PrintWriter(file);
 
     for (Result r : sortedResults) {
-      System.out.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
+      //System.out.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
       pw.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
     }
     pw.close();
