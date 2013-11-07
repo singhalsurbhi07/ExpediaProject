@@ -1,0 +1,2 @@
+javac -Xlint -d bin/ -classpath weka.jar src/com/project/utilities/Data_IO.java
+javac -Xlint -d bin/ -classpath weka.jar:bin/ src/com/project/classfiers/*.java
