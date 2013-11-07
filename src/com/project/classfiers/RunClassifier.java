@@ -63,7 +63,7 @@ public class RunClassifier {
 		    getInputForTest(testFile), c);
 	    break;
 	case LinearRegression:
-	    System.out.println("Using Logistic Regression classifier");
+	    System.out.println("Using Linear Regression classifier");
 	    if (readFromModelFile.equals("no")) {
 		c = LinearReg.train(readTrainFile(trainFile));
 		Utils.saveClassifier(c, modelFile);
