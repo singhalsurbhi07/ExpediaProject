@@ -33,7 +33,6 @@ public class RunClassifier {
 	String readFromModelFile = args[6];
 	ClassifierType cType = ClassifierType.valueOf(classifierType);
 
-	readTrainFile(trainFile);
 
 	Classifier c = null;
 	List<Result> result = null;
