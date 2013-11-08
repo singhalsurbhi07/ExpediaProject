@@ -50,7 +50,7 @@ public class Utils {
 
     File file = new File(outputFile);
     PrintWriter pw = new PrintWriter(file);
-
+    pw.println("SearchId,PropertyId");
     for (Result r : sortedResults) {
       //System.out.println(r.srch_id.intValue() + "," + r.prop_id.intValue());
       pw.println(r.srch_id.intValue() + "," + r.prop_id.intValue());

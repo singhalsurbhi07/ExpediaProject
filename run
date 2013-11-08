@@ -1,10 +1,10 @@
 time java -Xmx50G \
 	-classpath bin:weka.jar \
 	com.project.classfiers.RunClassifier \
-	~/results/data/train_1m.csv \
-	~/results/data/test.csv \
-	~/results/model/LiRe-1m-booking \
-	~/results/results/LiRe-1m-booking.txt \
-	LogisticRegression \
-	~/results/results/LiRe-1m-booking-interim.txt \
-	yes
+	~/extra/data/train.csv \
+	~/extra/data/test.csv \
+	~/extra/model/LiRe-5m-booking \
+	~/extra/results/LiRe-5m-booking.txt \
+	LinearRegression \
+	~/extra/results/LiRe-5m-booking-interim.txt \
+	no

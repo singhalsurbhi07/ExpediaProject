@@ -18,7 +18,7 @@ public class Data_IO {
 
     private static Instances csvLoad(String FileType) throws Exception {
 	CSVLoader loader = new CSVLoader();
-	loader.setOptions(weka.core.Utils.splitOptions("-M NULL"));
+	loader.setOptions(weka.core.Utils.splitOptions("-M ?"));
 	loader.setSource(new File(FileType));
 	Instances data = loader.getDataSet();
 	return data;

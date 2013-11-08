@@ -36,8 +36,11 @@ public class MLPImp {
       tempList.srch_id = input.value(0);
       tempList.prop_id = input.value(1);
 
-      double[] dist = cl.distributionForInstance(newInstance);
-      tempList.weight = getProbabilityOfBooking(dist[0], dist[1]);
+      try {
+      	tempList.weight = cl.distributionForInstance(newInstance)[0];
+      } catch (Exception e) {
+	tempList.weight = 0.0; 
+      }
       reqAttr.add(tempList);
     }
 

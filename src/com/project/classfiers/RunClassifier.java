@@ -72,6 +72,7 @@ public class RunClassifier {
 	    }
 	    result = LinearReg.predict(readTestFile(testFile),
 		    getInputForTest(testFile), c);
+	    break;
 	default:
 	    break;
 	}
