@@ -1,6 +1,7 @@
 package com.project.utilities;
 
 import java.io.File;
+import java.util.Random;
 
 import weka.core.Attribute;
 import weka.core.Instances;
@@ -54,12 +55,18 @@ public class Data_IO {
 	for (int i = 0; i < inst.numInstances(); i++) {
 	    if (inst.instance(i).value(inst.numAttributes() - 1) == 1) {
 		inst.instance(i).setWeight(50);
+		// System.out.println("Instance value:" + inst.instance(1));
 	    }
 	}
 
+	Random rand = new Random();
+	inst.randomize(rand);
+	Instances randomInst = new Instances(inst, 0, 5000000);
 
-	return inst;
+	return randomInst;
     }
+
+    // private static Instances randomizeFile(Instances )
 
     public static Instances setupTestFile(String testData) throws Exception {
 	Instances inst = csvLoad(testData);
