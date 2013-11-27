@@ -1,0 +1,15 @@
+#cut -d, -f1,4-48 test.csv > new_test1.csv
+#cut -d, -f49- test.csv > new_test2.csv
+#paste -d, new_test1.csv booking_bool.csv new_test2.csv > new_test.csv
+#rm new_test1.csv
+#rm new_test2.csv
+#mahout org.apache.mahout.classifier.sgd.RunLogistic --input new_test.csv  --model train.model --auc --scores --confusion > output
+#cp output output1
+#sed '1d' output1 > output2
+#sed '1d' output2 > output1
+#head -n -3 output1 > output2
+#cut -d, -f2 output2 > output1
+#cat  test.csv | sed '1d' | cut -d, -f1,8 > output3
+#paste -d, output1 output3 > output4
+#sort -t',' -k1 -r -n output4 > output5
+#cut -d, -f2- output5 | sort -t',' -k1 -g > mahoutLROutput.csv
